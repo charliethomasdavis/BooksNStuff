@@ -1,0 +1,24 @@
+.vscode/*
+.venv/*
+
+# dependencies
+frontendapp/node_modules
+frontendapp/.pnp
+frontendapp/.pnp.js
+
+# testing
+frontendapp/coverage
+
+# production
+frontendapp/build
+
+# misc
+frontendapp/.DS_Store
+frontendapp/.env.local
+frontendapp/.env.development.local
+frontendapp/.env.test.local
+frontendapp/.env.production.local
+
+frontendapp/npm-debug.log*
+frontendapp/yarn-debug.log*
+frontendapp/yarn-error.log*
