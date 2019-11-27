@@ -2,15 +2,22 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer, BooksSerializer
-from api.models import Books
+from rest_framework_extensions.mixins import NestedViewSetMixin
+from .serializers import UserSerializer, BooksSerializer, AuthorsSerializer
+from api.models import Books, Authors
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class BooksViewSet(viewsets.ModelViewSet):
+class BooksViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Books.objects.all()
     serializer_class = BooksSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated, ]
+
+class AuthorsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Authors.objects.all()
+    serializer_class = AuthorsSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [IsAuthenticated, ]

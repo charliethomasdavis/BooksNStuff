@@ -1,16 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from api.models import Books
+from api.models import Books, Authors
 
 class UserSerializer(serializers.ModelSerializer):
-    """
-    Serializes the User model
-
-    Fields:
-        - username
-        - password
-    """
     class Meta:
         model = User
         fields = ['id', 'username', 'password']
@@ -28,17 +21,11 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class BooksSerializer(serializers.ModelSerializer):
-    """
-    Serializes the Book model
-
-    Fields:
-        - isbn
-        - title
-        - pubdate
-        - price
-        - userreviews
-        - sname
-    """
     class Meta:
         model = Books
-        fields = ['isbn', 'title', 'pubdate', 'price', 'userreviews', 'sname']
+        fields = '__all__'
+
+class AuthorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Authors
+        fields = '__all__'

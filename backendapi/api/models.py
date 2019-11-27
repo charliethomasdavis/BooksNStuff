@@ -31,29 +31,6 @@ class AuthorBooks(models.Model):
         verbose_name_plural = "AuthorBooks"
 
 
-class Authors(models.Model):
-    authorid = models.AutoField(db_column='AuthorID', primary_key=True)  # Field name made lowercase.
-    fname = models.CharField(db_column='FName', max_length=100)  # Field name made lowercase.
-    lname = models.CharField(db_column='LName', max_length=100)  # Field name made lowercase.
-    dob = models.DateTimeField(db_column='DoB', blank=True, null=True)  # Field name made lowercase.
-    gender = models.CharField(db_column='Gender', max_length=10, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'Authors'
-        verbose_name_plural = "Authors"
-
-
-class BookCat(models.Model):
-    categorycode = models.IntegerField(db_column='CategoryCode', primary_key=True)  # Field name made lowercase.
-    categorydesc = models.CharField(db_column='CategoryDesc', max_length=100)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'BookCat'
-        verbose_name_plural = "BookCats"
-
-
 class Books(models.Model):
     isbn = models.CharField(db_column='ISBN', primary_key=True, max_length=20)  # Field name made lowercase.
     title = models.CharField(db_column='Title', max_length=127)  # Field name made lowercase.
@@ -66,6 +43,31 @@ class Books(models.Model):
         managed = False
         db_table = 'Books'
         verbose_name_plural = "Books"
+
+
+class Authors(models.Model):
+    authorid = models.AutoField(db_column='AuthorID', primary_key=True)  # Field name made lowercase.
+    fname = models.CharField(db_column='FName', max_length=100)  # Field name made lowercase.
+    lname = models.CharField(db_column='LName', max_length=100)  # Field name made lowercase.
+    dob = models.DateTimeField(db_column='DoB', blank=True, null=True)  # Field name made lowercase.
+    gender = models.CharField(db_column='Gender', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    books = models.ManyToManyField('Books', through='AuthorBooks')
+
+    class Meta:
+        managed = False
+        db_table = 'Authors'
+        verbose_name_plural = "Authors"
+
+
+class BookCat(models.Model):
+    categorycode = models.IntegerField(db_column='CategoryCode', primary_key=True)  # Field name made lowercase.
+    categorydesc = models.CharField(db_column='CategoryDesc', max_length=100)  # Field name made lowercase.
+    books = models.ManyToManyField('Books', through='BooksBookCat')
+
+    class Meta:
+        managed = False
+        db_table = 'BookCat'
+        verbose_name_plural = "BookCats"
 
 
 class BooksBookCat(models.Model):
