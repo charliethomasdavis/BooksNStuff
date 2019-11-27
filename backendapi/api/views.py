@@ -5,13 +5,19 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .serializers import UserSerializer, BooksSerializer, AuthorsSerializer
-from api.models import Books, Authors
+from .serializers import UserSerializer, BooksSerializer, AuthorsSerializer, CustomersSerializer
+from api.models import Books, Authors, Customers
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class CustomersViewSet(viewsets.ModelViewSet):
+    queryset = Customers.objects.all()
+    serializer_class = CustomersSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
 class BooksViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Books.objects.all()

@@ -3,7 +3,7 @@ from django.urls import path
 from django.conf.urls import include
 from rest_framework.routers import DefaultRouter
 from rest_framework_extensions.routers import NestedRouterMixin
-from .views import UserViewSet, BooksViewSet, AuthorsViewSet
+from .views import UserViewSet, BooksViewSet, AuthorsViewSet, CustomersViewSet
 
 # Subclass DefaultRouter to allow nested routing
 class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):
@@ -12,6 +12,7 @@ class NestedDefaultRouter(NestedRouterMixin, DefaultRouter):
 # Route hostname/api/<api_name> to corresponding ViewSet
 router = NestedDefaultRouter()
 router.register('users', UserViewSet)
+router.register('customers', CustomersViewSet)
 
 # Books API
 books_router = router.register('books', BooksViewSet)

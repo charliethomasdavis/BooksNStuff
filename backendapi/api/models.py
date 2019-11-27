@@ -6,6 +6,9 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save, pre_delete
+from django.dispatch import receiver
 
 
 class AuthorContactDetails(models.Model):
@@ -81,27 +84,38 @@ class BooksBookCat(models.Model):
         verbose_name_plural = "BooksBookCats"
 
 
-class CustomerContactDetails(models.Model):
-    customerid = models.ForeignKey('Customers', models.DO_NOTHING, db_column='CustomerID', primary_key=True)  # Field name made lowercase.
+class Customers(models.Model):
+    customerid = models.AutoField(db_column='CustomerID', primary_key=True)  # Field name made lowercase.
+    first_name = models.CharField(db_column='FName', max_length=100)  # Field name made lowercase.
+    last_name = models.CharField(db_column='LName', max_length=100)  # Field name made lowercase.
     address = models.CharField(db_column='Address', max_length=256, blank=True, null=True)  # Field name made lowercase.
     email = models.CharField(db_column='Email', max_length=100)  # Field name made lowercase.
     phone = models.CharField(db_column='Phone', max_length=100, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'CustomerContactDetails'
-        verbose_name_plural = "CustomerContactDetails"
-
-
-class Customers(models.Model):
-    customerid = models.AutoField(db_column='CustomerID', primary_key=True)  # Field name made lowercase.
-    fname = models.CharField(db_column='FName', max_length=100)  # Field name made lowercase.
-    lname = models.CharField(db_column='LName', max_length=100)  # Field name made lowercase.
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'Customers'
         verbose_name_plural = "Customers"
+
+    # Create Customers entry when User is created
+    @receiver(post_save, sender=User)
+    def create_profile_for_user(sender, instance=None, created=False, **kwargs):
+        if created:
+            print("Creating customer:", instance.first_name, instance.last_name)
+            Customers.objects.get_or_create(
+                user=instance,
+                first_name=instance.first_name,
+                last_name=instance.last_name,
+                email=instance.email
+            )
+
+    # Delete Customers entry when User deleted
+    @receiver(pre_delete, sender=User)
+    def delete_profile_for_user(sender, instance = None, **kwargs):
+        if instance:
+            customer = Customers.objects.get(user=instance)
+            customer.delete()
 
 
 class OrderItems(models.Model):

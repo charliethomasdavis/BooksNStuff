@@ -1,6 +1,9 @@
 .vscode/*
 venv/*
 
+backendapi/__pycache__/*
+backendapi/api/__pycache__/*
+
 # dependencies
 frontendapp/node_modules
 frontendapp/.pnp

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Login extends Component {
 
     state = {
-        credentials: {username: '', password: ''}
+        credentials: {username: '', password: '', email: '', first_name: '', last_name: ''}
     }
 
     login = async event => {
@@ -73,6 +73,33 @@ class Login extends Component {
                     Password:
                     <input type="password" name="password"
                      value={this.state.credentials.password}
+                     onChange={this.inputChanged}/>
+                </label>
+
+                <br/>
+
+                <label>
+                    Email Address:
+                    <input type="email" name="email"
+                     value={this.state.credentials.email}
+                     onChange={this.inputChanged}/>
+                </label>
+
+                <br/>
+
+                <label>
+                    First Name:
+                    <input type="text" name="first_name"
+                     value={this.state.credentials.first_name}
+                     onChange={this.inputChanged}/>
+                </label>
+
+                <br/>
+
+                <label>
+                    Last Name:
+                    <input type="text" name="last_name"
+                     value={this.state.credentials.last_name}
                      onChange={this.inputChanged}/>
                 </label>
 

@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from api.models import Books, Authors
+from api.models import Books, Authors, Customers
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password']
+        fields = ['id', 'email', 'username', 'password', 'first_name', 'last_name']
 
         # Prevent password from being retrieved with api
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
@@ -29,3 +29,9 @@ class AuthorsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Authors
         fields = '__all__'
+
+class CustomersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customers
+        fields = ['customerid', 'first_name', 'last_name', 'email', 'address', 'phone']
+        lookup_field = 'customerid'
