@@ -21,7 +21,7 @@ class BooksViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['isbn', 'title', 'price', 'pubdate', 'userreviews', 'sname']
-    search_fields = ['isbn', 'title']
+    search_fields = ['isbn', 'title', 'authors__fname', 'authors__lname']
 
 
 class AuthorsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -29,3 +29,7 @@ class AuthorsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = AuthorsSerializer
     #authentication_classes = [TokenAuthentication, ]
     #permission_classes = [IsAuthenticated, ]
+
+    filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['authorid', 'fname', 'lname', 'dob', 'gender', 'books__isbn', 'books__title']
+    search_fields = ['fname', 'lname', 'books__title']
