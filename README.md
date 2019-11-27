@@ -1,5 +1,4 @@
 # BooksNStuff
-![Game of Shapes](https://i.ibb.co/xq8Vs34/Game-Of-Shapes.png)
 
 <table>
 <tr>
