@@ -5,8 +5,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .serializers import UserSerializer, BooksSerializer, AuthorsSerializer, CustomersSerializer
-from api.models import Books, Authors, Customers
+from .serializers import UserSerializer, BooksSerializer, AuthorsSerializer, CustomersSerializer, BookCatSerializer
+from api.models import Books, Authors, Customers, BookCat
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -26,9 +26,16 @@ class BooksViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticated, ]
 
     filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filter_fields = ['isbn', 'title', 'price', 'pubdate', 'userreviews', 'sname']
-    search_fields = ['isbn', 'title', 'authors__fname', 'authors__lname']
+    filter_fields = ['isbn', 'title', 'price', 'pubdate', 'userreviews', 'sname', 'bookcat__categorydesc']
+    search_fields = ['isbn', 'title', 'authors__fname', 'authors__lname', 'bookcat__categorydesc']
 
+class BookCatViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = BookCat.objects.all()
+    serializer_class = BookCatSerializer
+
+    filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['categorydesc', 'books__isbn', 'books__title']
+    search_fields = ['categorydesc','books__isbn', 'books__title']
 
 class AuthorsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Authors.objects.all()

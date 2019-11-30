@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from api.models import Books, Authors, Customers
+from api.models import Books, Authors, Customers, BookCat
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,3 +35,8 @@ class CustomersSerializer(serializers.ModelSerializer):
         model = Customers
         fields = ['customerid', 'first_name', 'last_name', 'email', 'address', 'phone']
         lookup_field = 'customerid'
+
+class BookCatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookCat
+        fields = '__all__'
