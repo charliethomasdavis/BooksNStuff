@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+
+// Components
 import NavBar from './components/NavBar';
 import Mast from './components/Mast';
 import PageContent from './components/PageContent';
-import Footer from './components/Footer';
-import Book from './components/Book';
-import BookView from './components/BookView';
-import Books from './components/books';
-import Login from './components/login';
+import BookView from './components/BookView/BookView';
 
 function App() {
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import pricing from "../images/pricing.png";
 import shipping from "../images/1.png";
 import student from "../images/2.png";
-import Book from "./Book";
+import Book from "./BookView/Book";
 
 class PageContent extends Component {
   render() {
