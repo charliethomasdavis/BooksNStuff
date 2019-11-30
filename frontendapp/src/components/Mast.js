@@ -8,25 +8,38 @@ class Mast extends Component {
 
   search = async event => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/books?search=${this.state.query}`, {
+      let url = `http://127.0.0.1:8000/api/books?search=${this.state.query}`;
+
+      const response = await fetch(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
+
       if (!response.ok) {
         throw Error(response.statusText);
       }
 
       const json_response = await response.json();
 
+      // TODO: do something with response (redirect?)
+
       console.log(json_response);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   inputChanged = event => {
     this.setState({ query: event.target.value });
-  }; 
+  };
+
+  handleKeyPress = event => {
+    // Let enter key activate search
+    if (event.which === 13)
+    {
+      this.search()
+    }
+  };
 
   render() {
     return (
@@ -76,12 +89,15 @@ class Mast extends Component {
                 clear: "both"
               }}
             >
+
+              {/* Input Box */}
               <div style={{ float: "left", width: "54%" }}>
-                <input /* TODO: Make enter key work */
+                <input
                   type="text"
                   placeholder="ISBN, Author, or Title..."
                   value={this.state.query.searchquery}
                   onChange={this.inputChanged}
+                  onKeyPress={this.handleKeyPress}
                   style={{
                     padding: "8px",
                     display: "block",
@@ -93,8 +109,11 @@ class Mast extends Component {
                 ></input>
               </div>
             </div>
+
             <p>
+              {/* Submit Button */}
               <button
+                type="submit"
                 onClick={this.search}
                 style={{
                   backgroundColor: "#3470d1",
@@ -109,6 +128,7 @@ class Mast extends Component {
                 SEARCH
               </button>
             </p>
+
           </div>
         </div>
       </header>
