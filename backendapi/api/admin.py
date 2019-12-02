@@ -12,3 +12,6 @@ admin.site.register(OrderItems) # Requirement
 admin.site.register(Orders) # Requirement
 admin.site.register(SupplierReps) # Requirement
 admin.site.register(Suppliers) # Requirement
+
+admin.site.site_header = 'BooksNStuff Administration'
+admin.site.site_title = 'BooksNStuff'
