@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import logo from "../images/random.jpg";
+import logo from "./images/random.jpg";
 
-class Book extends Component {
+class ShoppingCart extends Component {
   render() {
     return (
       <div
@@ -35,4 +35,4 @@ class Book extends Component {
   }
 }
 
-export default Book;
+export default ShoppingCart;

@@ -1,29 +1,17 @@
-import React, { useState } from 'react';
-import NavBar from './components/NavBar';
-import Mast from './components/Mast';
-import PageContent from './components/PageContent';
-import Footer from './components/Footer';
-import Book from './components/Book';
-import BookView from './components/BookView';
-import Books from './components/books';
-import Login from './components/login';
+import React from "react";
+import NavBar from "./NavBar";
+import Mast from "./Mast";
+import PageContent from "./PageContent";
+import Footer from "./Footer";
+import Book from "./Book";
+import BookView from "./BookView";
+import ShoppingCart from "./ShoppingCart";
 
 function App() {
-
-  const [token, setToken] = useState('');
-
-  const userLogin = (tok) => {
-    setToken(tok);
-  }
-
   return (
-    <div className="App">
+    <div>
       <NavBar />
       <Mast />
-      <PageContent />
-      <BookView />
-      {/* <Login userLogin={userLogin}/>
-      <Books token={token}/> */}
     </div>
   );
 }

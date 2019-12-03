@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import user from "../images/user.png";
-import cart from "../images/cart.png";
+import user from "./images/avatar.png";
+import cart from "./images/shopping-cart.png";
+import logo from "./images/logo2.png";
 
 class NavBar extends Component {
+  inputChanged = event => {
+    this.setState({ query: event.target.value });
+  };
+
   render() {
     return (
       <div>
@@ -12,24 +17,29 @@ class NavBar extends Component {
             margin: "0",
             padding: "0",
             overflow: "hidden",
-            backgroundColor: "black"
+            backgroundColor: "#fafafa"
           }}
         >
           <li
             style={{
-              float: "left",
               display: "block",
-              color: "white",
+              color: "black",
               textAlign: "center",
               padding: "14px 16px",
-              textDecoration: "none"
+              textDecoration: "none",
+              float: "left"
             }}
           >
             <a
               href="starwars.com"
-              style={{ textDecoration: "none", color: "white" }}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                fontSize: "25px"
+              }}
             >
-              BooksNStuff
+              JACK
+              <span style={{ color: "#983eda" }}>BOOKS</span>
             </a>
           </li>
           <li
@@ -48,7 +58,12 @@ class NavBar extends Component {
             >
               <img
                 src={user}
-                style={{ width: "15px", height: "auto", textAlign: "center" }}
+                style={{
+                  width: "20px",
+                  height: "auto",
+                  textAlign: "center",
+                  marginTop: "2px"
+                }}
               />
             </a>
           </li>
@@ -70,7 +85,7 @@ class NavBar extends Component {
                 src={cart}
                 style={{
                   width: "22px",
-                  height: "auto",
+                  height: "22px",
                   textAlign: "center",
                   marginTop: "1px"
                 }}

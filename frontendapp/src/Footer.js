@@ -3,19 +3,16 @@ import React, { Component } from "react";
 class Footer extends Component {
   render() {
     return (
-      <div
+      <footer
         style={{
-          position: "fixed",
-          left: "0",
-          bottom: "0",
-          width: "100%",
+          flexShrink: "0",
           textAlign: "center",
-          color: "white",
-          backgroundColor: "black"
+          backgroundColor: "tomato",
+          color: "white"
         }}
       >
         <p> Built for CSC 425. </p>
-      </div>
+      </footer>
     );
   }
 }

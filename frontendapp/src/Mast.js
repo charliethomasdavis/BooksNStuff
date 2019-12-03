@@ -1,49 +1,37 @@
 import React, { Component } from "react";
-import profPic from "../images/mastPic.jpeg";
-import user from "../images/user.png";
-import cart from "../images/cart.png";
+import profPic from "./images/background2.jpg";
+import user from "./images/user.png";
+import cart from "./images/cart.png";
+import BookView from "./BookView";
+import Contacts from "./contacts";
+import Footer from "./Footer";
+import PageContent from "./PageContent";
 
 class Mast extends Component {
-  state = { query: '' }
+  state = {
+    contacts: [],
+    query: "",
+    author: []
+  };
 
-  search = async event => {
-    try {
-      let url = `http://127.0.0.1:8000/api/books?search=${this.state.query}`;
-
-      const response = await fetch(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-
-      const json_response = await response.json();
-
-      // TODO: do something with response (redirect?)
-
-      console.log(json_response);
-    } catch (error) {
-      console.log(error);
-    }
+  componentDidMount = async event => {
+    fetch(
+      `http://ec2-34-214-249-60.us-west-2.compute.amazonaws.com/api/books?search=${this.state.query}`
+    )
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ contacts: data });
+      })
+      .catch(console.log);
   };
 
   inputChanged = event => {
     this.setState({ query: event.target.value });
   };
 
-  handleKeyPress = event => {
-    // Let enter key activate search
-    if (event.which === 13)
-    {
-      this.search()
-    }
-  };
-
   render() {
     return (
-      <header
+      <div
         style={{
           maxWidth: "auto",
           position: "relative",
@@ -66,20 +54,19 @@ class Mast extends Component {
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -50%)"
+            transform: "translate(-50%, -50%)",
+            opacity: ".95"
           }}
         >
           <div
             style={{
               padding: "0.01em 16px",
               color: "#000",
-              backgroundColor: "#fff",
               paddingTop: "16px",
-              paddingBottom: "16px",
-              opacity: ".95"
+              paddingBottom: "16px"
             }}
           >
-            <h3 style={{}}> Search 1,000s of Books</h3>
+            <h1 style={{ color: "white" }}>Search for 1,000's of books!</h1>
             <div
               style={{
                 margin: "0 -16px",
@@ -89,15 +76,12 @@ class Mast extends Component {
                 clear: "both"
               }}
             >
-
-              {/* Input Box */}
               <div style={{ float: "left", width: "54%" }}>
-                <input
+                <input /* TODO: Make enter key work */
                   type="text"
-                  placeholder="ISBN, Author, or Title..."
+                  placeholder="Enter ISBN, Author, or Title..."
                   value={this.state.query.searchquery}
                   onChange={this.inputChanged}
-                  onKeyPress={this.handleKeyPress}
                   style={{
                     padding: "8px",
                     display: "block",
@@ -109,14 +93,11 @@ class Mast extends Component {
                 ></input>
               </div>
             </div>
-
             <p>
-              {/* Submit Button */}
               <button
-                type="submit"
-                onClick={this.search}
+                onClick={this.componentDidMount}
                 style={{
-                  backgroundColor: "#3470d1",
+                  backgroundColor: "#983eda",
                   color: "white",
                   border: "none",
                   textDecoration: "none",
@@ -128,10 +109,10 @@ class Mast extends Component {
                 SEARCH
               </button>
             </p>
-
           </div>
         </div>
-      </header>
+        <Contacts contacts={this.state.contacts} />
+      </div>
     );
   }
 }
