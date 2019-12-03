@@ -25,7 +25,7 @@ SECRET_KEY = 'livd(n85p_4-u*k927@fm=0clx82m4+115rv01*d-#%)t5gqkk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.ec2-34-214-249-60.us-west-2.compute.amazonaws.com']
 
 
 # Application definition
@@ -133,4 +133,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = '/home/ec2-user/sites/booksnstuff/backendapi/static'
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+)
