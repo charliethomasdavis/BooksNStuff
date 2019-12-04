@@ -27,7 +27,7 @@ class BooksViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['isbn', 'title', 'price', 'pubdate', 'userreviews', 'sname', 'bookcat__categorydesc']
-    search_fields = ['isbn', 'title', 'sname', 'authors__fname', 'authors__lname', 'bookcat__categorydesc']
+    search_fields = ['isbn', 'title', 'authors__fname', 'authors__lname', 'bookcat__categorydesc']
 
 class BookCatViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = BookCat.objects.all()
