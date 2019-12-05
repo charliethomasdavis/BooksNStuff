@@ -25,7 +25,7 @@ SECRET_KEY = 'livd(n85p_4-u*k927@fm=0clx82m4+115rv01*d-#%)t5gqkk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.ec2-34-214-249-60.us-west-2.compute.amazonaws.com']
+ALLOWED_HOSTS = ['.ec2-34-214-249-60.us-west-2.compute.amazonaws.com', '.127.0.0.1']
 
 
 # Application definition

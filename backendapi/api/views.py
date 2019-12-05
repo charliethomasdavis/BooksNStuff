@@ -5,8 +5,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .serializers import UserSerializer, BooksSerializer, AuthorsSerializer, CustomersSerializer, BookCatSerializer
-from api.models import Books, Authors, Customers, BookCat
+from .serializers import UserSerializer, BooksSerializer, AuthorsSerializer, CustomersSerializer, BookCatSerializer, OrdersSerializer, OrderItemsSerializer
+from api.models import Books, Authors, Customers, BookCat, Orders, OrderItems
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -46,3 +46,14 @@ class AuthorsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_fields = ['authorid', 'fname', 'lname', 'dob', 'gender', 'books__isbn', 'books__title']
     search_fields = ['fname', 'lname', 'books__title']
+
+class OrdersViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Orders.objects.all()
+    serializer_class = OrdersSerializer
+
+    filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['orderid', 'orderval', 'orderdate']
+
+class OrderItemsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = OrderItems.objects.all()
+    serializer_class = OrderItemsSerializer
