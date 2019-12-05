@@ -4,14 +4,16 @@ import user from "./images/user.png";
 import cart from "./images/cart.png";
 import BookView from "./BookView";
 import Contacts from "./contacts";
-import Footer from "./Footer";
 import PageContent from "./PageContent";
+import Orders from "./Orders2";
 
 class Mast extends Component {
   state = {
     contacts: [],
+    orders: [],
     query: "",
-    author: []
+    rating: "",
+    supplier: ""
   };
 
   componentDidMount = async event => {
@@ -25,8 +27,38 @@ class Mast extends Component {
       .catch(console.log);
   };
 
+  orderItemList = async event => {
+    fetch(
+      `http://ec2-34-214-249-60.us-west-2.compute.amazonaws.com/api/orderitems/`
+    )
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ orders: data });
+      })
+      .catch(console.log);
+  };
+
+  filter = async event => {
+    fetch(
+      `http://ec2-34-214-249-60.us-west-2.compute.amazonaws.com/api/books/?isbn=&title=&price=&pubdate=&userreviews=${this.state.rating}&sname=${this.state.supplier}&bookcat__categorydesc=`
+    )
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ contacts: data });
+      })
+      .catch(console.log);
+  };
+
   inputChanged = event => {
     this.setState({ query: event.target.value });
+  };
+
+  ratingChanged = event => {
+    this.setState({ rating: event.target.value });
+  };
+
+  supplierChanged = event => {
+    this.setState({ supplier: event.target.value });
   };
 
   render() {
@@ -77,7 +109,7 @@ class Mast extends Component {
               }}
             >
               <div style={{ float: "left", width: "54%" }}>
-                <input /* TODO: Make enter key work */
+                <input
                   type="text"
                   placeholder="Enter ISBN, Author, or Title..."
                   value={this.state.query.searchquery}
@@ -110,6 +142,46 @@ class Mast extends Component {
               </button>
             </p>
           </div>
+        </div>
+        <div
+          style={{
+            maxWidth: "auto",
+            position: "relative",
+            backgroundColor: "white",
+            textAlign: "center"
+          }}
+        >
+          <label> Rating: </label>
+          <input
+            type="number"
+            placeholder="Enter rating."
+            value={this.state.rating.searchquery}
+            onChange={this.ratingChanged}
+            style={{}}
+          ></input>
+          <label> Suppliers: </label>
+          <input
+            type="text"
+            placeholder="Enter supplier name."
+            value={this.state.supplier.searchquery}
+            onChange={this.supplierChanged}
+            style={{}}
+          ></input>
+          <button
+            type="button"
+            onClick={this.filter}
+            style={{
+              margin: "15px",
+              backgroundColor: "#983eda",
+              color: "white",
+              border: "none",
+              textDecoration: "none",
+              borderRadius: "25px",
+              marginLeft: "10px"
+            }}
+          >
+            Filter
+          </button>
         </div>
         <Contacts contacts={this.state.contacts} />
       </div>

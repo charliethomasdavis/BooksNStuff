@@ -1,6 +1,29 @@
 import React from "react";
 import logo from "./images/random.jpg";
 
+const state = {
+  orders: []
+};
+
+const addToCart = event => {
+  fetch(
+    "http://ec2-34-214-249-60.us-west-2.compute.amazonaws.com/api/orderitems/",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: {
+        itemprice: "989.00",
+        orderid: 3,
+        isbn: "005271239-X"
+      }
+    }
+  );
+};
+
+const alert = event => {
+  window.alert("Item added to cart!");
+};
+
 const Contacts = ({ contacts }) => {
   return (
     <div>
@@ -25,6 +48,7 @@ const Contacts = ({ contacts }) => {
           <p style={{ marginTop: "1px", fontSize: "11px" }}>
             by {contact.sname}
           </p>
+          <p style={{ marginTop: "1px", fontSize: "11px" }}>{contact.isbn}</p>
           <p style={{ color: "#ffbf00", marginTop: "15px" }}>
             {(() => {
               if (contact.userreviews == 5) {
@@ -53,6 +77,7 @@ const Contacts = ({ contacts }) => {
               width: "90px",
               borderRadius: "25px"
             }}
+            onClick={alert}
           >
             Add to Cart
           </button>

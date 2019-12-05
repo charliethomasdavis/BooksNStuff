@@ -2,10 +2,68 @@ import React, { Component } from "react";
 import user from "./images/avatar.png";
 import cart from "./images/shopping-cart.png";
 import logo from "./images/logo2.png";
+import Orders from "./Orders2";
 
 class NavBar extends Component {
+  state = {
+    orders: [],
+    credentials: { username: "", password: "" }
+  };
+
+  login = event => {
+    fetch("http://ec2-34-214-249-60.us-west-2.compute.amazonaws.com/auth/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(this.state.credentials)
+    })
+      .then(data => data.json())
+      .then(window.alert("User has logged in."))
+      .then(window.location.reload())
+      .then(data => {
+        this.props.userLogin(data.token);
+      })
+      .catch(error => console.error(error));
+  };
+
+  register = event => {
+    fetch(
+      "http://ec2-34-214-249-60.us-west-2.compute.amazonaws.com/api/users",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.state.credentials)
+      }
+    )
+      .then(data => data.json())
+      .then(data => {
+        console.log(data.token);
+      })
+      .catch(error => console.error(error));
+  };
+
   inputChanged = event => {
-    this.setState({ query: event.target.value });
+    const cred = this.state.credentials;
+    cred[event.target.name] = event.target.value;
+    this.setState({ credentials: cred });
+  };
+
+  orderItemList = async event => {
+    fetch(
+      `http://ec2-34-214-249-60.us-west-2.compute.amazonaws.com/api/orderitems/`
+    )
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ orders: data });
+      })
+      .catch(console.log);
+  };
+
+  refresh = event => {
+    window.location.reload();
+  };
+
+  openCart = event => {
+    return <div> </div>;
   };
 
   render() {
@@ -31,7 +89,7 @@ class NavBar extends Component {
             }}
           >
             <a
-              href="starwars.com"
+              onClick={this.refresh}
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -52,20 +110,16 @@ class NavBar extends Component {
               textDecoration: "none"
             }}
           >
-            <a
-              style={{ textDecoration: "none", color: "#3470d1" }}
-              href="thenextweb.com"
-            >
-              <img
-                src={user}
-                style={{
-                  width: "20px",
-                  height: "auto",
-                  textAlign: "center",
-                  marginTop: "2px"
-                }}
-              />
-            </a>
+            <img
+              onClick={this.orderItemList}
+              src={cart}
+              style={{
+                width: "22px",
+                height: "22px",
+                textAlign: "center",
+                marginTop: "1px"
+              }}
+            />
           </li>
           <li
             style={{
@@ -77,22 +131,53 @@ class NavBar extends Component {
               textDecoration: "none"
             }}
           >
-            <a
-              style={{ textDecoration: "none", color: "#3470d1" }}
-              href="https://www.linkedin.com/in/alexandro-valdez-b57627180"
-            >
-              <img
-                src={cart}
-                style={{
-                  width: "22px",
-                  height: "22px",
-                  textAlign: "center",
-                  marginTop: "1px"
-                }}
+            <a style={{ textDecoration: "none", color: "#3470d1" }}>
+              <input
+                type="text"
+                name="username"
+                value={this.state.credentials.username}
+                onChange={this.inputChanged}
+                placeholder="Enter username."
+                style={{ marginTop: "3px" }}
               />
+              <input
+                type="password"
+                name="password"
+                value={this.state.credentials.password}
+                onChange={this.inputChanged}
+                placeholder="Enter password."
+              />
+              <button
+                onClick={this.login}
+                style={{
+                  backgroundColor: "#983eda",
+                  color: "white",
+                  border: "none",
+                  textDecoration: "none",
+                  borderRadius: "25px",
+                  marginLeft: "5px"
+                }}
+              >
+                Login
+              </button>
+              <button
+                onClick={this.register}
+                style={{
+                  backgroundColor: "#983eda",
+                  color: "white",
+                  border: "none",
+                  textDecoration: "none",
+                  borderRadius: "25px",
+                  marginLeft: "5px"
+                }}
+                s
+              >
+                Register
+              </button>
             </a>
           </li>
         </ul>
+        <Orders orders={this.state.orders} />
       </div>
     );
   }
